@@ -2,7 +2,7 @@
 
 A **zero-setup Laravel development environment** using Docker.
 
-Just clone and run — Laravel installs automatically with MySQL, Redis, Nginx, Mailhog, and phpMyAdmin ready out of the box.
+Just clone and run — Laravel installs automatically with PostgreSQL, Redis, Nginx, Mailhog, and phpMyAdmin ready out of the box.
 
 Perfect for fast local Laravel development using:
 
@@ -20,7 +20,7 @@ Perfect for fast local Laravel development using:
 
 * PHP 8.4 (FPM)
 * Nginx (fast web server)
-* MySQL 8 (database)
+* PostgreSQL (database)
 * Redis (cache, queue, sessions)
 * Mailhog (email testing)
 * pgAdmin (database UI)
@@ -300,24 +300,24 @@ by editing:
 
 # 🛢️ Database Configuration
 
-## MySQL Service
+## PostgreSQL Service
 
 ### Container Name
 
 ```text
-mysql
+PostgreSQL
 ```
 
 ### Default Credentials
 
 | Key           | Value      |
 | ------------- | ---------- |
-| Host          | mysql      |
-| Port          | 3306       |
+| Host          | postgres   |
+| Port          | 5432       |
 | Database      | laravel_db |
 | Username      | user       |
 | Password      | user123    |
-| Root Password | root       |
+
 
 Laravel uses this automatically.
 
