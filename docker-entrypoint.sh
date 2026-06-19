@@ -52,13 +52,13 @@ if ! grep -q "^APP_KEY=base64" .env; then
 fi
 
 # -----------------------------------
-# 6. Wait for MySQL
+# 6. Wait for PostgreSQL
 # -----------------------------------
-echo "Waiting for MySQL..."
+echo "Waiting for PostgreSQL..."
 
 until php -r "
 try {
-    new PDO('mysql:host=mysql;dbname=laravel_db', 'user', 'user123');
+    new PDO('pgsql:host=postgres;dbname=laravel_db', 'user', 'user123');
     echo 'DB connected\n';
 } catch (Exception \$e) {
     exit(1);
@@ -76,10 +76,17 @@ done
 
     echo "Clearing config cache..."
     php artisan config:clear || true
+
 ) &
 
 # -----------------------------------
-# 8. Start PHP-FPM
+# 8. Public disk symlink (uploads → /storage/...)
+# -----------------------------------
+echo "Ensuring storage link..."
+php artisan storage:link --force || true
+
+# -----------------------------------
+# 9. Start PHP-FPM
 # -----------------------------------
 echo "Starting PHP-FPM..."
 exec php-fpm -F

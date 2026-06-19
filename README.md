@@ -8,7 +8,7 @@ Perfect for fast local Laravel development using:
 
 * PHP 8.4
 * Laravel
-* MySQL 8
+- PostgreSQL (default in `.env.example`)
 * Redis
 * Nginx
 * Mailhog
@@ -23,7 +23,7 @@ Perfect for fast local Laravel development using:
 * MySQL 8 (database)
 * Redis (cache, queue, sessions)
 * Mailhog (email testing)
-* phpMyAdmin (database UI)
+* pgAdmin (database UI)
 * Xdebug (installed, disabled by default)
 * Automatic Laravel installation
 * Automatic `.env` setup
@@ -65,7 +65,7 @@ On first container startup:
 * Composer dependencies are installed
 * Application key is generated
 * Storage permissions are fixed
-* MySQL connection is verified
+* Postgresql connection is verified
 * Database migrations are executed
 * Config cache is cleared
 
@@ -89,10 +89,10 @@ This setup includes:
 | ------------ | ------------------------------ |
 | `app`        | PHP-FPM + Laravel application  |
 | `nginx`      | Web server                     |
-| `mysql`      | MySQL database                 |
+| `Postgreesql`| PostgreeSQL database                 |
 | `redis`      | Redis cache / queue / sessions |
 | `mailhog`    | Local email testing            |
-| `phpmyadmin` | Database management UI         |
+| `pgadmin`    | Database management UI         |
 
 ---
 
@@ -144,7 +144,7 @@ You have:
 * Project B
 * Project C
 
-All using Nginx + phpMyAdmin
+All using Nginx + pgAdmin
 
 Dynamic ports allow all of them to run together without:
 
@@ -220,9 +220,6 @@ mailhog:
   ports:
     - "8025:8025"
 
-phpmyadmin:
-  ports:
-    - "8080:80"
 ```
 
 This gives:
@@ -230,7 +227,7 @@ This gives:
 | Service     | URL                   |
 | ----------- | --------------------- |
 | Laravel App | http://localhost:8000 |
-| phpMyAdmin  | http://localhost:8080 |
+| pgAdmin     | http://localhost:5050 |
 | Mailhog     | http://localhost:8025 |
 
 This is the most beginner-friendly setup.

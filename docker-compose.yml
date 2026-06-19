@@ -4,7 +4,7 @@ services:
     volumes:
       - ./:/var/www
     depends_on:
-      mysql:
+      postgres:
         condition: service_healthy
       redis:
         condition: service_started
@@ -21,39 +21,45 @@ services:
       - app
     restart: unless-stopped
 
-  mysql:
-    image: mysql:8.0
+  postgres:
+    image: postgres:16-alpine
+    container_name: laravel_postgres
     environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: laravel_db
-      MYSQL_USER: user
-      MYSQL_PASSWORD: user123
+      POSTGRES_DB: laravel_db
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: user123
     volumes:
-      - mysql_data:/var/lib/mysql
+      - postgres_data:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      test: ["CMD-SHELL", "pg_isready -U user -d laravel_db"]
       interval: 5s
       retries: 10
     restart: unless-stopped
 
   redis:
     image: redis:7-alpine
+    container_name: laravel_redis
+    ports:
+      - "${FORWARD_REDIS_PORT:-6379}:6379"
     restart: unless-stopped
 
   mailhog:
     image: mailhog/mailhog
+    container_name: laravel_mailhog
     ports:
-      - "8025"
+      - "8025:8025"
     restart: unless-stopped
 
-  phpmyadmin:
-    image: phpmyadmin/phpmyadmin
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: laravel_pgadmin
     ports:
-      - "80"
+      - "5050:80"
     environment:
-      PMA_HOST: mysql
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: admin
     depends_on:
-      - mysql
+      - postgres
     restart: unless-stopped
 
 volumes:
